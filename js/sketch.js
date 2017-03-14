@@ -2,9 +2,14 @@ var font, text;
 var vehicles = [];
 
 function preload() {
-  font = loadFont('../fonts/Watchword_regular_demo.otf');
+  fonts = Array(); 
+  font_list = Array('Candy_Pop.ttf','DEARBORN type.ttf','TECHNOLIN.ttf','Typo Angular.otf','VTKS-MINDFULNESS.ttf','Watchword_regular.otf');
+  for (var i=0;i<font_list.length;i++){
+      fonts.push( loadFont('../fonts/'+ font_list[i] ) );
+      $('<option/>').val(i).html(font_list[i]).appendTo('#items');
+  }
 }
-
+  
 function setup() {
   createCanvas(1000, 500);
 }
@@ -20,8 +25,8 @@ function draw() {
 }
 
 function generate() {
+  font = fonts[ $("#items").val() ];
   if ($("input").val() !== "") {
-    if ($("input").val() !== text) {
         vehicles.splice(0, vehicles.length);
         text = $("input").val();
         points = font.textToPoints(text, 0, 250, 200);
@@ -30,7 +35,6 @@ function generate() {
           var pt = points[j];
           var vehicle = new Vehicle(pt.x, pt.y);
           vehicles.push(vehicle);
-      }
     }
   }
 }
